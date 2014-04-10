@@ -132,7 +132,7 @@ if (Meteor.isServer) {
   _.each(Assets.getText("enable2k.txt").split("\n"), function (line) {
     // Skip blanks and comment lines
     if (line && line.indexOf("//") !== 0) {
-      DICTIONARY[line] = true;
+      DICTIONARY[line.trim()] = true;
     }
   });
 
@@ -155,4 +155,11 @@ if (Meteor.isServer) {
     return Words.find({$or: [{game_id: game_id, state: 'good'},
                              {player_id: player_id}]});
   });
+}
+
+if(typeof(String.prototype.trim) === "undefined"){
+  var whitespace = /^\s+|\s+$/g;
+  String.prototype.trim = function(){
+    return String(this).replace(whitespace, '');
+  };
 }
